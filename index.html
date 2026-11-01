@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Shape of World Heritage · A descriptive analytics study</title>
+<meta name="description" content="What 1,121 UNESCO World Heritage sites reveal about region, category, and time. A descriptive analytics study built with Orange for HD6003.">
+<meta name="theme-color" content="#07110f">
+<meta property="og:title" content="The Shape of World Heritage">
+<meta property="og:description" content="What 1,121 UNESCO World Heritage sites reveal about region, category, and time.">
+<meta property="og:type" content="website">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%2307110f'/%3E%3Cpath d='M14 44V20h6l6 14 6-14h6v24h-5V29l-5 11h-4l-5-11v15z' fill='%23c8a45c'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="progress" id="progress" aria-hidden="true"></div>
+
+<nav class="nav" id="nav" aria-label="Primary">
+  <div class="nav-inner">
+    <a class="brand" href="#top" aria-label="The Shape of World Heritage, back to top">
+      <span class="brand-mark">W</span>
+      <span class="brand-text">World Heritage · 2019</span>
+    </a>
+    <div class="nav-links" id="navLinks">
+      <a href="#question">Question</a>
+      <a href="#data">Data</a>
+      <a href="#method">Method</a>
+      <a href="#sieve">Sieve</a>
+      <a href="#mosaic">Mosaic</a>
+      <a href="#violin">Violin</a>
+      <a href="#findings">Findings</a>
+    </div>
+    <div class="nav-actions">
+      <button class="pill-btn" id="cueToggle" type="button" aria-pressed="false" title="Show the Chinese presenter cue from the video script">Presenter cue</button>
+      <button class="pill-btn" id="shareBtn" type="button">Share</button>
+    </div>
+  </div>
+</nav>
+
+<header class="hero" id="top">
+  <div class="wrap hero-inner">
+    <div class="hero-kicker">A descriptive analytics study · HD6003</div>
+    <h1>The shape of <em>world heritage</em></h1>
+    <p class="hero-lede">What 1,121 UNESCO World Heritage sites reveal about region, category, and time. No prediction. No model training. Just a closer look at the list itself.</p>
+    <div class="hero-meta">
+      <span>2019 snapshot</span>
+      <span>UNESCO World Heritage List</span>
+      <span>CC0 data</span>
+      <span>Orange</span>
+    </div>
+    <div class="hero-figure" aria-hidden="true">
+      <span class="figure-number">1,121</span>
+      <span class="figure-label">sites in the list</span>
+    </div>
+    <div class="hero-bottom">
+      <p class="hero-caption">A visual essay on the structure of a cultural catalogue. Built to accompany the HD6003 video demonstration.</p>
+      <a class="scroll-cue" href="#question"><span class="line"></span> Begin the story</a>
+    </div>
+  </div>
+</header>
+
+<main>
+  <section class="section" id="question" data-cue-time="0:00–2:00" data-cue="网页：开场、为什么选 UNESCO、三个 RQ。先给钩子，不要读标题；最后说清 2019 快照。">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <div class="eyebrow">01 / The question</div>
+        <h2>A list is never <em>just a list.</em></h2>
+        <p class="lead">Every catalogue makes choices: what to include, how to classify it, and when it enters. This study asks three descriptive questions about those choices, using only the fields in the 2019 UNESCO World Heritage List.</p>
+      </div>
+      <div class="rq-grid">
+        <a class="rq-card reveal d1" href="#sieve">
+          <span class="rq-num">RQ 01</span>
+          <h3>How does the composition of categories differ across regions?</h3>
+          <p>Cultural, Natural, and Mixed sites are not spread evenly. The mosaic shows what each region is made of.</p>
+          <span class="rq-tag">Mosaic display</span>
+        </a>
+        <a class="rq-card reveal d2" href="#sieve">
+          <span class="rq-num">RQ 02</span>
+          <h3>Which region–category combinations are over- or under-represented?</h3>
+          <p>The sieve compares what is in the list with what independence would predict.</p>
+          <span class="rq-tag">Sieve diagram</span>
+        </a>
+        <a class="rq-card reveal d3" href="#violin">
+          <span class="rq-num">RQ 03</span>
+          <h3>How do inscription dates vary across regions and categories?</h3>
+          <p>The violin shows the distribution of inscription years, not just the average.</p>
+          <span class="rq-tag">Violin plot</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="data" data-cue-time="2:00–3:10" data-cue="网页：数据事实 + 清洗。只讲四个字段：类别、地区、危险状态、列入年份；强调 2019 快照。">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <div class="eyebrow">02 / The dataset</div>
+        <h2>One list. <em>Four fields.</em></h2>
+        <p class="lead">The 2019 snapshot contains 1,121 sites and 22 columns. The visual essay uses category, region, danger status, and date of inscription. Three cross-region records are kept in the totals but omitted from the two-dimensional charts for readability.</p>
+      </div>
+      <div class="data-grid">
+        <div class="reveal">
+          <div class="counters">
+            <div class="counter"><span class="num" data-count="1121">0</span><span class="lab">sites</span></div>
+            <div class="counter"><span class="num" data-count="22">0</span><span class="lab">columns</span></div>
+            <div class="counter"><span class="num" data-count="5">0</span><span class="lab">main regions</span></div>
+            <div class="counter"><span class="num" data-count="3">0</span><span class="lab">categories</span></div>
+            <div class="counter"><span class="num" data-count="53">0</span><span class="lab">in danger</span></div>
+            <div class="counter"><span class="num" data-count="2019">0</span><span class="lab">snapshot year</span></div>
+          </div>
+          <div class="data-note">
+            <strong class="gold">A note on categories.</strong> Region and category are administrative list categories, not neutral facts about cultures. The page describes records, not the value of heritage.
+          </div>
+        </div>
+        <div class="reveal d1">
+          <div class="chart-title">Records by region</div>
+          <div class="region-bars" id="regionBars" aria-label="Records by UNESCO region"></div>
+          <div class="category-split">
+            <div class="chart-title">Records by category</div>
+            <div class="split-bar" id="categorySplit" aria-label="Records by category"></div>
+            <div class="split-labels" id="categoryLabels"></div>
+          </div>
+          <p class="small-note" style="margin-top:18px">All 1,121 records have a valid inscription year. The smallest group is Mixed (39 records); treat its cells with care.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="method" data-cue-time="1:20–3:40" data-cue="网页：三个方法对应三个 RQ；Pythagorean Tree 只提一句。3:10 切 Orange 看 workflow。">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <div class="eyebrow">03 / The method</div>
+        <h2>Three views. <em>One question at a time.</em></h2>
+        <p class="lead">Each visualisation answers a different descriptive question. All three are descriptive; none requires a trained model. That is also why the project does not use a Pythagorean Tree.</p>
+      </div>
+      <div class="method-grid">
+        <a class="method-card reveal d1" href="#sieve">
+          <svg viewBox="0 0 40 40" aria-hidden="true"><rect x="5" y="5" width="12" height="12"/><rect x="23" y="5" width="12" height="12"/><rect x="5" y="23" width="12" height="12"/><rect x="23" y="23" width="12" height="12"/></svg>
+          <h3>Sieve Diagram</h3>
+          <p>Association between two categorical variables. Area shows the expectation; colour shows the residual.</p>
+          <span class="mfoot">Where is the list dense? ↗</span>
+        </a>
+        <a class="method-card reveal d2" href="#mosaic">
+          <svg viewBox="0 0 40 40" aria-hidden="true"><path d="M6 6h28v9H6z"/><path d="M6 17h17v17H6z"/><path d="M25 17h9v9h-9z"/><path d="M25 28h9v6h-9z"/></svg>
+          <h3>Mosaic Display</h3>
+          <p>Composition inside each region. Width, height, and colour show how the mix changes.</p>
+          <span class="mfoot">What is inside each region? ↗</span>
+        </a>
+        <a class="method-card reveal d3" href="#violin">
+          <svg viewBox="0 0 40 40" aria-hidden="true"><path d="M20 5c-5 6-7 9-7 14s3 9 7 16c4-7 7-11 7-16s-2-8-7-14z"/><path d="M20 8v24"/></svg>
+          <h3>Violin Plot</h3>
+          <p>Distribution of a numeric variable across groups. Look at the median, the spread, and the tails.</p>
+          <span class="mfoot">When do sites enter the list? ↗</span>
+        </a>
+      </div>
+      <div class="workflow reveal">
+        <span class="wf"><b>CSV</b> 1,121 records</span><span class="wf-arrow">→</span>
+        <span class="wf"><b>Clean</b> regions, years, types</span><span class="wf-arrow">→</span>
+        <span class="wf"><b>Orange</b> workflow</span><span class="wf-arrow">→</span>
+        <span class="wf"><b>Three views</b> one dataset</span>
+      </div>
+      <details class="why reveal">
+        <summary>Why not a Pythagorean Tree?</summary>
+        <p>A Pythagorean Tree visualises a trained decision tree. It needs a target variable and a model. That would turn the project into prediction or model interpretation. The task here is descriptive analytics: describe the structure of the list, not predict a new site. The three chosen widgets keep the scope honest and make the comparison between regions and categories readable.</p>
+      </details>
+    </div>
+  </section>
+
+  <section class="section chart-section" id="sieve" data-cue-time="3:40–6:20" data-cue="Orange：Sieve。先指两个轴，再指面积，最后指颜色；用 Africa × Natural 做例子：38 vs 约 18 expected。">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <div class="eyebrow">04 / The sieve</div>
+        <h2>Where the list is <em>dense.</em></h2>
+      </div>
+      <div class="chart-grid">
+        <div class="chart-copy reveal">
+          <p>The sieve compares two categorical variables: category and region. The area of each cell follows the count expected under independence. The colour shows the direction and strength of the departure from that expectation.</p>
+          <p>Read the largest cells first. Then look for the strongest colours: those are the combinations that appear more, or less, often than the marginals would predict.</p>
+          <div class="insight" id="sieveInsight"></div>
+          <p class="note">Association is not causation. The sieve does not explain why a region has more Cultural sites; it only shows that the pattern is there. Small cells are unstable and should not carry a large argument.</p>
+        </div>
+        <div class="chart-panel reveal d1">
+          <div class="chart-top">
+            <span class="chart-title">Category × region · standardised residual</span>
+            <div class="legend" aria-label="Legend">
+              <span class="legend-item"><span class="legend-swatch" style="background:rgba(200,164,92,.85)"></span>over-represented</span>
+              <span class="legend-item"><span class="legend-swatch" style="background:rgba(143,166,194,.85)"></span>under-represented</span>
+            </div>
+          </div>
+          <div class="sieve-wrap">
+            <div class="sieve-shell" id="sieveChart" aria-label="Sieve diagram of category by region">
+              <div class="sieve-y" id="sieveY"></div>
+              <div class="sieve-plot" id="sievePlot"></div>
+              <div class="sieve-x" id="sieveX"></div>
+            </div>
+          </div>
+          <p class="chart-caption">Cell area follows the expected count under independence; colour is the standardised Pearson residual. Hover or focus a cell for observed and expected counts. Three multi-region records are omitted.</p>
+          <p class="sieve-insight" id="sieveSmall"></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section chart-section" id="mosaic" data-cue-time="6:20–7:50" data-cue="Orange：Mosaic。先指宽度，再指高度，最后指颜色；切换 In danger；Mixed 小段不要过度解释。">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <div class="eyebrow">05 / The mosaic</div>
+        <h2>What is inside <em>each region.</em></h2>
+      </div>
+      <div class="chart-grid">
+        <div class="chart-copy reveal">
+          <p>The mosaic changes the question from association to composition. Each column is a region; the height of each segment is the share of a category. The colour shows the category mix, and the controls let you filter the same columns by danger status.</p>
+          <div class="insight" id="mosaicInsight"></div>
+          <p class="note">Mixed is a small category, so its segments are thin and unstable. Danger is an administrative status, not a measure of heritage value. Use the mosaic to compare shapes, not to rank regions.</p>
+        </div>
+        <div class="chart-panel reveal d1">
+          <div class="chart-top">
+            <span class="chart-title">Composition by region · category share</span>
+          </div>
+          <div class="mosaic-controls" role="group" aria-label="Filter mosaic by danger status">
+            <button class="toggle active" type="button" data-filter="all">All records</button>
+            <button class="toggle" type="button" data-filter="inDanger">In danger</button>
+            <button class="toggle" type="button" data-filter="notInDanger">Not in danger</button>
+          </div>
+          <div class="mosaic-chart" id="mosaicChart" aria-label="Mosaic display of category composition by region"></div>
+          <div class="legend" aria-label="Category legend" style="margin-top:12px">
+            <span class="legend-item"><span class="legend-swatch" style="background:var(--gold)"></span>Cultural</span>
+            <span class="legend-item"><span class="legend-swatch" style="background:var(--sage)"></span>Natural</span>
+            <span class="legend-item"><span class="legend-swatch" style="background:var(--clay)"></span>Mixed</span>
+          </div>
+          <p class="mosaic-note" id="mosaicNote">All records · 1,118 records in five regions. Hover a segment for counts.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section chart-section" id="violin" data-cue-time="7:50–9:20" data-cue="Orange：Violin。指宽度、中线、尾部；列入年份不是建造年份；看中位数、离散度、尾部。">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <div class="eyebrow">06 / The violin</div>
+        <h2>When sites <em>enter the list.</em></h2>
+      </div>
+      <div class="chart-grid">
+        <div class="chart-copy reveal">
+          <p>The violin shows the full distribution of inscription years, not just an average. Width is density; the centre line is the median; the tails are the earliest and latest inscriptions.</p>
+          <p>Compare the median and the spread. A group that enters the list later has a shifted median. A group with a long tail has a few very early or very late entries.</p>
+          <div class="insight" id="violinInsight"></div>
+          <p class="note">These are inscription years, not the age of the sites. A site can be ancient and inscribed recently. The data stops in 2019.</p>
+        </div>
+        <div class="chart-panel reveal d1">
+          <div class="chart-top">
+            <span class="chart-title">Date inscribed · distribution by group</span>
+          </div>
+          <div class="violin-controls" role="group" aria-label="Change violin grouping">
+            <button class="toggle active" type="button" data-mode="region">By region</button>
+            <button class="toggle" type="button" data-mode="category">By category</button>
+          </div>
+          <div class="violin-wrap">
+            <svg id="violinSvg" viewBox="0 0 900 500" role="img" aria-label="Violin plot of inscription years by region"></svg>
+          </div>
+          <p class="violin-note" id="violinNote">Shapes are normalised within each group. Hover or focus a group for n, median, and quartiles.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="findings" data-cue-time="9:20–10:20" data-cue="网页：三个图合起来。77.5% Cultural；Europe & N. America 47.1%；Natural Africa 2.1× expected。不要编数字。">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <div class="eyebrow">07 / What the three views add up to</div>
+        <h2>A cultural list with a <em>regional tilt.</em></h2>
+        <p class="lead">Descriptive patterns, not a ranking of heritage value. The numbers below are counts of records in the 2019 snapshot.</p>
+      </div>
+      <div class="findings-grid">
+        <div class="finding reveal d1">
+          <div class="big">77.5%</div>
+          <h3>Cultural gravity</h3>
+          <p>869 of 1,121 records are Cultural. Natural accounts for 213 (19.0%), Mixed for 39 (3.5%).</p>
+        </div>
+        <div class="finding reveal d2">
+          <div class="big">47.1%</div>
+          <h3>A regional tilt</h3>
+          <p>Europe and North America hold 528 records. Asia and the Pacific holds 266; Latin America and the Caribbean 142; Africa 96; Arab States 86.</p>
+        </div>
+        <div class="finding reveal d3">
+          <div class="big">2.1×</div>
+          <h3>Natural sites in Africa</h3>
+          <p>38 Natural sites appear where about 18 would be expected under independence. In Europe and North America, Natural sites are under-represented: 65 vs about 100 expected.</p>
+        </div>
+      </div>
+      <p class="quote reveal">The list is not random. But a pattern in the catalogue is not an explanation of <em>why</em> the catalogue looks that way.</p>
+      <p class="small-note reveal" style="margin-top:22px">One more signal: 21 of the 53 records marked “in danger” are Cultural sites in Arab States. The mosaic filter makes that concentration visible.</p>
+    </div>
+  </section>
+
+  <section class="section" id="reflection" data-cue-time="10:20–11:10" data-cue="网页：反思。三条限制：2019 快照、名录分类不是文化本质、小样本不稳定；不做因果解释。">
+    <div class="wrap">
+      <div class="reflection-panel reveal">
+        <div class="eyebrow">08 / What this is not</div>
+        <h2>A map, not <em>the territory.</em></h2>
+        <p class="lead">The value of descriptive analytics is that it gives us a map before we start explaining. It also tells us where the map is thin.</p>
+        <div class="limits">
+          <div class="limit"><span class="ln">01</span><h3>A 2019 snapshot</h3><p>The data ends in 2019. It is not the current list, and it cannot tell us about inscriptions after that year.</p></div>
+          <div class="limit"><span class="ln">02</span><h3>Administrative categories</h3><p>Region and category are list classifications, not cultures. The page describes records, not the value of heritage.</p></div>
+          <div class="limit"><span class="ln">03</span><h3>Small cells, modest claims</h3><p>Mixed has 39 records; some region–category cells are tiny. Small cells are unstable and do not support causal claims.</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="credits">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <div class="eyebrow">09 / Credits</div>
+        <h2>Data, tool, <em>context.</em></h2>
+      </div>
+      <div class="credits-grid">
+        <div class="credits-list reveal">
+          <div class="credit-row"><span class="k">Data</span><span class="v">UNESCO World Heritage List 2019, via Kaggle. CC0: Public Domain. <a href="https://www.kaggle.com/datasets/ujwalkandi/unesco-world-heritage-sites" target="_blank" rel="noopener">Source dataset ↗</a></span></div>
+          <div class="credit-row"><span class="k">Tool</span><span class="v">Orange Data Mining. Visualize widgets: Sieve Diagram, Mosaic Display, Violin Plot.</span></div>
+          <div class="credit-row"><span class="k">Course</span><span class="v">HD6003 Applications of AI in Digital Humanities · 2026 Semester 1.</span></div>
+          <div class="credit-row"><span class="k">Group</span><span class="v">HD6003 group project · 2026 Semester 1. Names and roles appear in the video credits.</span></div>
+          <div class="credit-row"><span class="k">Method</span><span class="v">Descriptive analytics only. No model training, no prediction, no causal claims.</span></div>
+        </div>
+        <div class="reveal d1">
+          <p class="lead" style="margin-top:0">A visual essay built to accompany the HD6003 video demonstration. The three charts are drawn from the same cleaned CSV used in the Orange workflow.</p>
+          <p class="small-note">The page uses only the 2019 snapshot. If you reuse the charts, cite the dataset and state the snapshot year. The visual design is original and dependency-free; it can be hosted on GitHub Pages as a static site.</p>
+          <button class="pill-btn" id="shareBtn2" type="button" style="margin-top:16px">Copy page link</button>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">
+  <div class="wrap footer-inner">
+    <div>
+      <div>THE SHAPE OF WORLD HERITAGE · 2019 SNAPSHOT</div>
+      <div>Data: UNESCO World Heritage List 2019, via Kaggle (CC0) · Tool: Orange · HD6003</div>
+    </div>
+    <div style="display:flex;gap:14px;align-items:center">
+      <a href="#top">Back to top ↑</a>
+      <button class="to-top" id="topBtn" type="button">Top</button>
+    </div>
+  </div>
+</footer>
+
+<div class="presenter-bar" id="presenterBar" aria-live="polite">
+  <div class="presenter-inner">
+    <span class="cue-time" id="cueTime">CUE</span>
+    <span class="cue-text" id="cueText">开启 Presenter cue 后，这里会显示当前段落对应的中文录制提示。</span>
+    <button class="cue-close" id="cueClose" type="button" aria-label="Close presenter cue">×</button>
+  </div>
+</div>
+
+<div class="tooltip" id="tooltip" role="status" aria-live="polite"></div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<noscript><div style="padding:100px 24px;text-align:center;color:#f4efe3">This visual essay needs JavaScript for the interactive charts. The data is still readable in the page source.</div></noscript>
+
+<script src="data.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
