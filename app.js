@@ -125,15 +125,17 @@
     el.dataset.done = '1';
     const target = Number(el.dataset.count);
     if (!Number.isFinite(target)) return;
-    if (reduceMotion) { el.textContent = fmt(target); return; }
+    const isYear = target >= 1900 && target <= 2100;
+    const display = (value) => isYear ? String(value) : fmt(value);
+    if (reduceMotion) { el.textContent = display(target); return; }
     const start = performance.now();
     const duration = 1200;
     function frame(now) {
       const t = clamp((now - start) / duration, 0, 1);
       const eased = 1 - Math.pow(1 - t, 3);
-      el.textContent = fmt(Math.round(target * eased));
+      el.textContent = display(Math.round(target * eased));
       if (t < 1) requestAnimationFrame(frame);
-      else el.textContent = fmt(target);
+      else el.textContent = display(target);
     }
     requestAnimationFrame(frame);
   }
