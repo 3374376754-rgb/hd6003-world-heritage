@@ -313,3 +313,17 @@ body.presenter-on .toast{bottom:82px}
   .cue-time{font-size:9px}
   .credit-row{grid-template-columns:84px minmax(0,1fr);gap:10px}
 }
+
+/* venn */
+.venn-wrap{width:100%;overflow-x:auto;padding:2px 0 4px}
+#vennSvg{display:block;width:100%;height:auto;min-width:520px}
+.venn-circle{stroke-width:1.2;fill-opacity:.14}
+.venn-set-label{font-family:var(--sans);font-size:10px;letter-spacing:.11em;text-transform:uppercase;font-weight:600}
+.venn-count{font-family:var(--serif);font-size:30px;fill:var(--ink);text-anchor:middle;dominant-baseline:middle;font-weight:400}
+.venn-count-sub{font-family:var(--sans);font-size:8px;letter-spacing:.08em;text-transform:uppercase;fill:var(--faint);text-anchor:middle}
+.venn-group{cursor:pointer}
+.venn-group .venn-halo{fill:transparent}
+.venn-group:hover .venn-count,.venn-group:focus-visible .venn-count{fill:var(--gold-2)}
+.venn-group:focus{outline:none}
+.venn-group:focus-visible .venn-halo{stroke:var(--gold-2);stroke-width:1.5;fill:rgba(200,164,92,.08)}
+.venn-outside{font-family:var(--mono);font-size:9px;fill:var(--faint);text-anchor:middle}

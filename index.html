@@ -27,7 +27,7 @@
       <a href="#method">Method</a>
       <a href="#sieve">Sieve</a>
       <a href="#mosaic">Mosaic</a>
-      <a href="#violin">Violin</a>
+      <a href="#decade">Decades</a>
       <a href="#findings">Findings</a>
     </div>
     <div class="nav-actions">
@@ -80,11 +80,11 @@
           <p>The sieve compares what is in the list with what independence would predict.</p>
           <span class="rq-tag">Sieve diagram</span>
         </a>
-        <a class="rq-card reveal d3" href="#violin">
+        <a class="rq-card reveal d3" href="#decade">
           <span class="rq-num">RQ 03</span>
-          <h3>How do inscription dates vary across regions and categories?</h3>
-          <p>The violin shows the distribution of inscription years, not just the average.</p>
-          <span class="rq-tag">Violin plot</span>
+          <h3>How does the mix of inscription decades differ across regions?</h3>
+          <p>A second mosaic turns the time question into a composition: which decades dominate each region?</p>
+          <span class="rq-tag">Mosaic display</span>
         </a>
       </div>
     </div>
@@ -145,11 +145,11 @@
           <p>Composition inside each region. Width, height, and colour show how the mix changes.</p>
           <span class="mfoot">What is inside each region? ↗</span>
         </a>
-        <a class="method-card reveal d3" href="#violin">
-          <svg viewBox="0 0 40 40" aria-hidden="true"><path d="M20 5c-5 6-7 9-7 14s3 9 7 16c4-7 7-11 7-16s-2-8-7-14z"/><path d="M20 8v24"/></svg>
-          <h3>Violin Plot</h3>
-          <p>Distribution of a numeric variable across groups. Look at the median, the spread, and the tails.</p>
-          <span class="mfoot">When do sites enter the list? ↗</span>
+        <a class="method-card reveal d3" href="#decade">
+          <svg viewBox="0 0 40 40" aria-hidden="true"><path d="M6 6h28v7H6z"/><path d="M6 15h28v7H6z"/><path d="M6 24h28v7H6z"/><path d="M6 33h28v3H6z"/></svg>
+          <h3>Mosaic: Decades</h3>
+          <p>The same widget, a new question. Each region is a column; each segment is a decade.</p>
+          <span class="mfoot">What is the decade mix? ↗</span>
         </a>
       </div>
       <div class="workflow reveal">
@@ -233,31 +233,32 @@
     </div>
   </section>
 
-  <section class="section chart-section" id="violin" data-cue-time="7:50–9:20" data-cue="Orange：Violin。指宽度、中线、尾部；列入年份不是建造年份；看中位数、离散度、尾部。">
+  <section class="section chart-section" id="decade" data-cue-time="7:50–9:20" data-cue="网页/Orange：Mosaic decade。Africa 与 Arab States 在 1980s 最高；Asia-Pacific 在 2010s；Europe 与 Latin America 在 1990s；1970s 只有 1978–79，不是完整分布。">
     <div class="wrap">
       <div class="section-head reveal">
-        <div class="eyebrow">06 / The violin</div>
+        <div class="eyebrow">06 / The decade mosaic</div>
         <h2>When sites <em>enter the list.</em></h2>
       </div>
       <div class="chart-grid">
         <div class="chart-copy reveal">
-          <p>The violin shows the full distribution of inscription years, not just an average. Width is density; the centre line is the median; the tails are the earliest and latest inscriptions.</p>
-          <p>Compare the median and the spread. A group that enters the list later has a shifted median. A group with a long tail has a few very early or very late entries.</p>
-          <div class="insight" id="violinInsight"></div>
-          <p class="note">These are inscription years, not the age of the sites. A site can be ancient and inscribed recently. The data stops in 2019.</p>
+          <p>We return to the Mosaic Display, but now the segments are decades. Each column is a region; each segment is the share of that region's inscriptions in a decade. The question changes from “what category?” to “which decade dominates this region?”</p>
+          <p>The same descriptive logic applies: compare the shape of the columns, not just their totals. A region can have many sites and still peak in a different decade.</p>
+          <div class="insight" id="decadeInsight"></div>
+          <p class="note">Decades are bins, not a full distribution. The 1970s bin contains only 1978 and 1979; the 2010s ends in 2019. Read the mix, not a precise trend.</p>
         </div>
         <div class="chart-panel reveal d1">
           <div class="chart-top">
-            <span class="chart-title">Date inscribed · distribution by group</span>
+            <span class="chart-title">Region × decade · share of inscriptions</span>
           </div>
-          <div class="violin-controls" role="group" aria-label="Change violin grouping">
-            <button class="toggle active" type="button" data-mode="region">By region</button>
-            <button class="toggle" type="button" data-mode="category">By category</button>
+          <div class="mosaic-chart" id="decadeChart" aria-label="Mosaic display of inscription decade composition by region"></div>
+          <div class="legend" aria-label="Decade legend" style="margin-top:12px">
+            <span class="legend-item"><span class="legend-swatch" style="background:#8f9b95"></span>1970s</span>
+            <span class="legend-item"><span class="legend-swatch" style="background:#c8a45c"></span>1980s</span>
+            <span class="legend-item"><span class="legend-swatch" style="background:#7fa99b"></span>1990s</span>
+            <span class="legend-item"><span class="legend-swatch" style="background:#8fa6c2"></span>2000s</span>
+            <span class="legend-item"><span class="legend-swatch" style="background:#c97b63"></span>2010s</span>
           </div>
-          <div class="violin-wrap">
-            <svg id="violinSvg" viewBox="0 0 900 500" role="img" aria-label="Violin plot of inscription years by region"></svg>
-          </div>
-          <p class="violin-note" id="violinNote">Shapes are normalised within each group. Hover or focus a group for n, median, and quartiles.</p>
+          <p class="mosaic-note" id="decadeNote">Five main regions · 1,118 records. Hover a segment for counts and shares.</p>
         </div>
       </div>
     </div>
@@ -288,7 +289,7 @@
         </div>
       </div>
       <p class="quote reveal">The list is not random. But a pattern in the catalogue is not an explanation of <em>why</em> the catalogue looks that way.</p>
-      <p class="small-note reveal" style="margin-top:22px">One more signal: 21 of the 53 records marked “in danger” are Cultural sites in Arab States. The mosaic filter makes that concentration visible.</p>
+      <p class="small-note reveal" style="margin-top:22px">One more signal: 21 of the 53 records marked “in danger” are Cultural sites in Arab States. The mosaic filter makes that concentration visible. The decade mosaic adds a time contrast: Africa and Arab States peak in the 1980s; Asia and the Pacific peaks in the 2010s.</p>
     </div>
   </section>
 
@@ -316,7 +317,7 @@
       <div class="credits-grid">
         <div class="credits-list reveal">
           <div class="credit-row"><span class="k">Data</span><span class="v">UNESCO World Heritage List 2019, via Kaggle. CC0: Public Domain. <a href="https://www.kaggle.com/datasets/ujwalkandi/unesco-world-heritage-sites" target="_blank" rel="noopener">Source dataset ↗</a></span></div>
-          <div class="credit-row"><span class="k">Tool</span><span class="v">Orange Data Mining. Visualize widgets: Sieve Diagram, Mosaic Display, Violin Plot.</span></div>
+          <div class="credit-row"><span class="k">Tool</span><span class="v">Orange Data Mining. Visualize widgets: Sieve Diagram, Mosaic Display (category), Mosaic Display (decades).</span></div>
           <div class="credit-row"><span class="k">Course</span><span class="v">HD6003 Applications of AI in Digital Humanities · 2026 Semester 1.</span></div>
           <div class="credit-row"><span class="k">Group</span><span class="v">HD6003 group project · 2026 Semester 1. Names and roles appear in the video credits.</span></div>
           <div class="credit-row"><span class="k">Method</span><span class="v">Descriptive analytics only. No model training, no prediction, no causal claims.</span></div>

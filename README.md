@@ -31,7 +31,7 @@ License: CC0 Public Domain. The 2019 snapshot is not the current 2026 list.
 
 ## Method
 
-Descriptive analytics only. The three views are a Sieve Diagram, a Mosaic Display, and a Violin Plot. No model training, no prediction, and no causal claims. Three multi-region records are kept in the totals but omitted from the two-dimensional charts for readability.
+Descriptive analytics only. The three views are a Sieve Diagram, a Mosaic Display for category, and a Mosaic Display for inscription decades. No model training, no prediction, and no causal claims. Three multi-region records are kept in the totals but omitted from the two-dimensional charts for readability.
 
 ## Presenter cue
 

@@ -41,6 +41,25 @@
     'Natural': 'rgba(127,169,155,.86)',
     'Mixed': 'rgba(201,123,99,.86)'
   };
+  const VENN = {
+    sets: [
+      { label: 'Cultural', total: 869, color: '#c8a45c' },
+      { label: 'Europe & N. America', total: 528, color: '#8fa6c2' },
+      { label: 'Inscribed before 2000', total: 628, color: '#7fa99b' }
+    ],
+    counts: { a: 207, b: 28, c: 101, ab: 183, ac: 210, bc: 48, abc: 269, outside: 75 }
+  };
+  const DECADE = {
+    decades: ['1970s', '1980s', '1990s', '2000s', '2010s'],
+    colors: ['#8f9b95', '#c8a45c', '#7fa99b', '#8fa6c2', '#c97b63'],
+    counts: {
+      'Africa': [7, 30, 13, 28, 18],
+      'Arab States': [9, 34, 8, 14, 21],
+      'Asia and the Pacific': [5, 47, 72, 61, 81],
+      'Europe and North America': [32, 115, 170, 123, 88],
+      'Latin America and the Caribbean': [4, 36, 46, 35, 21]
+    }
+  };
 
   const cellsByRegion = {};
   const cellsByCategory = {};
@@ -56,7 +75,7 @@
   const nav = $('#nav');
   const progress = $('#progress');
   const navLinks = $$('#navLinks a');
-  const sectionIds = ['question', 'data', 'method', 'sieve', 'mosaic', 'violin', 'findings', 'reflection'];
+  const sectionIds = ['question', 'data', 'method', 'sieve', 'mosaic', 'decade', 'findings', 'reflection'];
   const sections = sectionIds.map((id) => document.getElementById(id)).filter(Boolean);
 
   function onScroll() {
@@ -366,6 +385,82 @@
     }
   }
 
+  /* ---------- decade mosaic ---------- */
+  function renderDecade() {
+    const chart = $('#decadeChart');
+    const insight = $('#decadeInsight');
+    if (!chart) return;
+
+    chart.innerHTML = chartRegions.map((reg) => {
+      const vals = DECADE.counts[reg] || [];
+      const total = vals.reduce((a, b) => a + b, 0);
+      const segments = DECADE.decades.map((decade, i) => {
+        const count = vals[i] || 0;
+        if (!count) return '';
+        const share = total ? (count / total) * 100 : 0;
+        const tip = `<strong>${regionShort[reg] || reg} · ${decade}</strong><span class="tnum">${fmt(count)} records</span><span>${share.toFixed(1)}% of the region</span>`;
+        return `<button class="mosaic-seg" type="button" style="height:${share.toFixed(2)}%;background:${DECADE.colors[i]}" data-tip="${tip.replace(/"/g, '&quot;')}" aria-label="${regionShort[reg] || reg}, ${decade}: ${count} records"></button>`;
+      }).join('');
+      return `<div class="mosaic-col" title="${regionShort[reg] || reg}: ${fmt(total)} records">
+        <div class="mosaic-label">${regionShort[reg] || reg}</div>
+        <div class="mosaic-stack">${segments}</div>
+        <div class="mosaic-total">${fmt(total)}</div>
+      </div>`;
+    }).join('');
+
+    if (insight) {
+      insight.innerHTML = `<strong>The decade mix is not the same everywhere.</strong> Africa and Arab States peak in the 1980s (31.2% and 39.5%); Asia and the Pacific peaks in the 2010s (30.5%); Europe and North America and Latin America peak in the 1990s (32.2% and 32.4%).`;
+    }
+    setTimeout(onScroll, 40);
+  }
+
+  /* ---------- venn ---------- */
+  function renderVenn() {
+    const svg = $('#vennSvg');
+    const insight = $('#vennInsight');
+    if (!svg) return;
+
+    const circles = [
+      { cx: 300, cy: 230, r: 170, color: '#c8a45c', label: 'Cultural', lx: 185, ly: 48 },
+      { cx: 460, cy: 230, r: 170, color: '#8fa6c2', label: 'Europe & N. America', lx: 570, ly: 48 },
+      { cx: 380, cy: 370, r: 170, color: '#7fa99b', label: 'Inscribed before 2000', lx: 380, ly: 618 }
+    ];
+
+    let out = '';
+    circles.forEach((c) => {
+      out += `<circle class="venn-circle" cx="${c.cx}" cy="${c.cy}" r="${c.r}" fill="${c.color}" stroke="${c.color}"/>`;
+      out += `<text class="venn-set-label" x="${c.lx}" y="${c.ly}" fill="${c.color}" text-anchor="middle">${c.label}</text>`;
+    });
+
+    const items = [
+      { x: 220, y: 200, count: VENN.counts.a, label: 'Cultural only', tip: 'Cultural only' },
+      { x: 540, y: 200, count: VENN.counts.b, label: 'Europe only', tip: 'Europe & N. America only' },
+      { x: 380, y: 500, count: VENN.counts.c, label: 'Pre-2000 only', tip: 'Inscribed before 2000 only' },
+      { x: 380, y: 180, count: VENN.counts.ab, label: 'Cultural + Europe', tip: 'Cultural + Europe & N. America' },
+      { x: 300, y: 330, count: VENN.counts.ac, label: 'Cultural + pre-2000', tip: 'Cultural + inscribed before 2000' },
+      { x: 460, y: 330, count: VENN.counts.bc, label: 'Europe + pre-2000', tip: 'Europe & N. America + inscribed before 2000' },
+      { x: 380, y: 285, count: VENN.counts.abc, label: 'All three', tip: 'All three sets' }
+    ];
+
+    items.forEach((it) => {
+      const tip = `<strong>${it.tip}</strong><span class="tnum">${it.count} records</span>`;
+      out += `<g class="venn-group" tabindex="0" role="button" aria-label="${it.tip}: ${it.count} records" data-tip="${tip.replace(/"/g, '&quot;')}">`;
+      out += `<circle class="venn-halo" cx="${it.x}" cy="${it.y}" r="36"/>`;
+      out += `<text class="venn-count" x="${it.x}" y="${it.y - 4}">${it.count}</text>`;
+      out += `<text class="venn-count-sub" x="${it.x}" y="${it.y + 19}">${it.label}</text>`;
+      out += `</g>`;
+    });
+
+    out += `<text class="venn-outside" x="380" y="590">${VENN.counts.outside} records outside all three</text>`;
+    svg.innerHTML = out;
+    svg.setAttribute('aria-label', 'Venn diagram of Cultural sites, sites in Europe and North America, and sites inscribed before 2000');
+
+    if (insight) {
+      insight.innerHTML = `<strong>${VENN.counts.abc} records sit in the centre:</strong> Cultural, European, and inscribed before 2000. Another ${VENN.counts.ac} are Cultural and pre-2000 outside Europe; ${VENN.counts.ab} are Cultural and European but later.`;
+    }
+    setTimeout(onScroll, 40);
+  }
+
   /* ---------- violin ---------- */
   const violinState = { mode: 'region' };
   function kde(values, x, bw) {
@@ -492,7 +587,7 @@
   renderData();
   renderSieve();
   renderMosaic();
-  renderViolin();
+  renderDecade();
   onScroll();
   window.addEventListener('scroll', onScroll, { passive: true });
   window.addEventListener('resize', () => { updateCue(); }, { passive: true });
